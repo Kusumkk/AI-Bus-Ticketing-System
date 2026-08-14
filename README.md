@@ -1,152 +1,103 @@
-# 🚌 AI Bus Ticketing System
+# AI Bus Ticketing System
 
-An AI-powered full-stack bus ticketing platform that allows customers to search for buses using natural-language queries, view bus details, book tickets, manage bookings, and cancel tickets.
+## Tech Stack Used
 
-The system also provides an admin portal for managing buses, monitoring bookings, viewing revenue, and checking bus occupancy.
+* **Frontend:** React.js, Vite, JavaScript, HTML, CSS, Axios
+* **Backend:** Python, FastAPI
+* **Database:** MySQL
+* **Authentication:** JWT
+* **API Documentation:** Swagger / OpenAPI
 
----
+## Architecture Decisions
 
-## 📌 Project Overview
-
-The AI Bus Ticketing System is designed to simplify bus ticket booking by combining a conversational/natural-language search experience with a traditional ticket booking workflow.
-
-Customers can:
-
-- Register and log in securely
-- Search for buses using natural-language queries
-- View available buses and their details
-- Select a bus and seat
-- Enter passenger details
-- Confirm a booking
-- View their bookings
-- Cancel bookings
-- Receive proper validation when a seat is already booked
-
-Administrators can:
-
-- Log in through the admin portal
-- View booking and revenue statistics
-- Monitor bus occupancy
-- Create buses
-- Update bus information
-- Delete buses
-- View all customer bookings
-- Manage the overall bus inventory
-
----
-
-## 🚀 Key Features
-
-### 👤 Customer Features
-
-- Customer registration and login
-- JWT-based authentication
-- Role-based authorization
-- AI-powered natural-language bus search
-- Bus search by route and other criteria
-- Bus details and availability
-- Passenger information form
-- Seat selection
-- Ticket booking
-- Automatic seat availability update
-- My Bookings page
-- Booking cancellation
-- Seat restoration after cancellation
-- Duplicate seat booking protection
-
-### 👨‍💼 Admin Features
-
-- Admin authentication
-- Admin dashboard
-- Today's booking statistics
-- Today's revenue
-- Total bus count
-- Bus occupancy monitoring
-- Create bus
-- Update bus
-- Delete bus
-- View all customer bookings
-- Role-based API protection
-
----
-
-# 🛠️ Tech Stack
-
-## Frontend
-
-- React.js
-- Vite
-- JavaScript
-- HTML5
-- CSS3
-- React Router
-- Axios
-
-## Backend
-
-- Python
-- FastAPI
-- Uvicorn
-- SQLAlchemy
-- Pydantic
-- JWT Authentication
-- OAuth2 Password Bearer
-
-## Database
-
-- MySQL
-- SQLAlchemy ORM
-- SQL schema provided in `database/schema.sql`
-
-## AI
-
-- AI-powered natural-language search
-- Natural-language queries are interpreted and converted into searchable bus criteria
-
-## Development Tools
-
-- Visual Studio Code
-- Git
-- GitHub
-- Thunder Client
-- Swagger / OpenAPI
-
----
-
-# 🏗️ Architecture
-
-The application follows a **client-server architecture** with separate frontend, backend, and database layers.
+The system follows a **client-server architecture**:
 
 ```text
-                    ┌─────────────────────┐
-                    │      Customer       │
-                    │      / Admin        │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   React + Vite      │
-                    │      Frontend       │
-                    └──────────┬──────────┘
-                               │
-                         HTTP / REST API
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       FastAPI       │
-                    │       Backend       │
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-       Authentication      Bus/Booking       AI Search
-          & Roles             APIs             Logic
-              │                │                │
-              └────────────────┼────────────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       MySQL         │
-                    │      Database       │
-                    └─────────────────────┘
+React Frontend
+      ↓
+REST APIs
+      ↓
+FastAPI Backend
+      ↓
+MySQL Database
+```
+
+* React is used for the customer and admin interfaces.
+* FastAPI handles REST APIs, authentication, bus management, booking logic, and validation.
+* MySQL stores users, buses, and bookings.
+* JWT is used for authentication and role-based access.
+* Booking validation is handled on the backend to prevent duplicate bookings and overbooking.
+* Seat availability is decreased after a confirmed booking and restored when a booking is cancelled.
+
+## Setup Instructions
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/Kusumkk/AI-Bus-Ticketing-System.git
+cd AI-Bus-Ticketing-System
+```
+
+### 2. Database
+
+Create a MySQL database and execute:
+
+```text
+database/schema.sql
+```
+
+### 3. Backend
+
+```powershell
+cd backend
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+Create `backend/.env` using `.env.example` and configure the required database and secret values.
+
+Start the backend:
+
+```powershell
+uvicorn app.main:app --reload
+```
+
+Backend:
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### 4. Frontend
+
+Open another terminal:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+## Assumptions
+
+* Each confirmed booking occupies one seat.
+* A seat cannot be booked twice for the same bus.
+* A bus with zero available seats cannot accept new bookings.
+* Cancelling a booking releases the occupied seat.
+* Ticket price is based on the selected bus.
+* MySQL is used as the development database.
+* Authentication secrets and database credentials are stored in environment variables.
+* Payment gateway integration is outside the current project scope.
