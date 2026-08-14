@@ -13,13 +13,38 @@
 The system follows a **client-server architecture**:
 
 ```text
-React Frontend
-      ↓
-REST APIs
-      ↓
-FastAPI Backend
-      ↓
-MySQL Database
+      ┌─────────────────────┐
+                    │      Customer       │
+                    │      / Admin        │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   React + Vite      │
+                    │      Frontend       │
+                    └──────────┬──────────┘
+                               │
+                         HTTP / REST API
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       FastAPI       │
+                    │       Backend       │
+                    └──────────┬──────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              │                │                │
+              ▼                ▼                ▼
+       Authentication      Bus/Booking       AI Search
+          & Roles             APIs             Logic
+              │                │                │
+              └────────────────┼────────────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       MySQL         │
+                    │      Database       │
+                    └─────────────────────┘
 ```
 
 * React is used for the customer and admin interfaces.
