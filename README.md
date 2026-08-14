@@ -2,18 +2,17 @@
 
 ## Tech Stack Used
 
-* **Frontend:** React.js, Vite, JavaScript, HTML, CSS, Axios
-* **Backend:** Python, FastAPI
-* **Database:** MySQL
-* **Authentication:** JWT
-* **API Documentation:** Swagger / OpenAPI
+- **Frontend:** React.js, JavaScript, CSS
+- **Backend:** Python, FastAPI
+- **Database:** MySQL
+- **Authentication:** JWT
 
 ## Architecture Decisions
 
 The system follows a **client-server architecture**:
 
 ```text
-      ┌─────────────────────┐
+                    ┌─────────────────────┐
                     │      Customer       │
                     │      / Admin        │
                     └──────────┬──────────┘
